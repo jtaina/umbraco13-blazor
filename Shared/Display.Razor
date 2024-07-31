@@ -98,25 +98,23 @@ else
         var simpleitemfetched = JsonConvert.DeserializeObject<SimpleItem>(stringData);
 
         Type type = simpleitemfetched.GetType();
-         Console.WriteLine("type");
-          Console.WriteLine(type);
-         PropertyInfo[] properties = type.GetProperties();
+        Console.WriteLine("type");
+        Console.WriteLine(type);
+        PropertyInfo[] properties = type.GetProperties();
 
-         foreach (var property in properties)
-         {
-             var propertyName = property.Name;
-            var propertyValue = property.GetValue(simpleitemfetched);
-             Console.WriteLine($"{propertyName}: {propertyValue}");
-         }
-
+        foreach (var property in properties)
+        {
+          var propertyName = property.Name;
+          var propertyValue = property.GetValue(simpleitemfetched);
+          Console.WriteLine($"{propertyName}: {propertyValue}");
+        }
 
          simpleitem = simpleitemfetched;
-
 
       }
       catch (Exception e)
       {
-      Console.WriteLine("Exception");
+        Console.WriteLine("Exception");
         Console.WriteLine(e);
       }
     }
