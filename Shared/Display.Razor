@@ -1,0 +1,130 @@
+@using System.ComponentModel
+@using Services
+@inject IBlazorPublishEventService PublishEventService
+@inject IHttpClientFactory ClientFactory
+@using Models;
+@using System.Text.Json
+@using Newtonsoft.Json
+@using System.Reflection;
+
+<div>
+    @foreach (var publishEvent in PublishEventService.PublishEventList)
+    {
+        <p>@publishEvent.PublishDate : @publishEvent.ModelAlias</p>
+    }
+</div>
+
+<div>
+  <h3>Sample Json data below</h3>
+  @if (item.HasValue)
+{
+    <div>
+       <p><strong>ID:</strong> @item.Value.GetProperty("id")</p>
+        <p><strong>Name:</strong> @item.Value.GetProperty("name")</p>
+        <p><strong>Description:</strong> @item.Value.GetProperty("description")</p>
+        <p><strong>Price:</strong> @item.Value.GetProperty("price")</p>
+        <p><strong>Available:</strong> @item.Value.GetProperty("available")</p>
+        <p><strong>Timestamp:</strong> @item.Value.GetProperty("timestamp")</p>
+    </div>
+}
+else
+{
+    <div>Json will arrive here...</div>
+}
+
+@if (simpleitem != null)
+{
+    <div>
+        @* <p><strong>ID:</strong> @simpleitem.Id</p> *@
+        @* <p><strong>Name:</strong> @simpleitem.Value.GetProperty("Name")</p> *@
+        @* <p><strong>Description:</strong> @simpleitem.Description</p> *@
+        @* <p><strong>Price:</strong> @simpleitem.Value.GetProperty("Price")</p>
+        <p><strong>Available:</strong> @simpleitem.Value.GetProperty("Available")</p>
+        <p><strong>Timestamp:</strong> @simpleitem.Value.GetProperty("Timestamp")</p> *@
+    </div>
+}
+else
+{
+    <div>SimpleItem will arrive here...</div>
+}
+
+</div>
+
+@code {
+     private JsonElement? item;
+     private SimpleItem? simpleitem;
+
+    protected override void OnInitialized()
+    {
+        PublishEventService.PropertyChanged += PropertyHasChanged;
+
+    }
+
+    protected override async Task OnInitializedAsync()
+{
+    await AsyncApiCall();
+    await FetchSimpleItem();
+}
+
+    private void PropertyHasChanged(object? sender, PropertyChangedEventArgs args)
+    {
+      Console.WriteLine("Display: PropertyHasChanged");
+        InvokeAsyncState();
+    }
+
+    private async Task AsyncApiCall() {
+      try {
+            var clientlocal = ClientFactory.CreateClient("LocalApi");
+        item = await clientlocal.GetFromJsonAsync<JsonElement>("api/simple");
+        //Console.WriteLine("item");
+        //Console.WriteLine(item);
+      }
+      catch (Exception e)
+      {
+ Console.WriteLine("Exception");
+        Console.WriteLine(e);
+      }
+
+    }
+
+    private async Task FetchSimpleItem()
+    {
+      try {
+        var clientlocal = ClientFactory.CreateClient("LocalApi");
+        var response = await clientlocal.GetAsync("api/simpleitem");
+        var stringData = await response.Content.ReadAsStringAsync();
+        Console.WriteLine("stringData");
+        Console.WriteLine(stringData);
+        var simpleitemfetched = JsonConvert.DeserializeObject<SimpleItem>(stringData);
+
+        Type type = simpleitemfetched.GetType();
+         Console.WriteLine("type");
+          Console.WriteLine(type);
+         PropertyInfo[] properties = type.GetProperties();
+
+         foreach (var property in properties)
+         {
+             var propertyName = property.Name;
+            var propertyValue = property.GetValue(simpleitemfetched);
+             Console.WriteLine($"{propertyName}: {propertyValue}");
+         }
+
+
+         simpleitem = simpleitemfetched;
+
+
+      }
+      catch (Exception e)
+      {
+      Console.WriteLine("Exception");
+        Console.WriteLine(e);
+      }
+    }
+
+    private async Task InvokeAsyncState()
+    {
+      Console.WriteLine("InvokeAsyncState");
+        await InvokeAsync(StateHasChanged);
+    }
+
+}

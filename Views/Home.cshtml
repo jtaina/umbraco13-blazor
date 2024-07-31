@@ -1,0 +1,18 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.Home>
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@using Blazor_Umbraco13.Shared;
+
+@{
+	Layout = "Master.cshtml";
+}
+
+<section>
+	<div>@Model.MainText</div>
+
+	@(await Html.RenderComponentAsync<Display>(RenderMode.ServerPrerendered))
+
+
+</section>
+
+<script src="~/_framework/blazor.server.js"></script>

@@ -1,0 +1,12 @@
+{
+  "nuxt.isNuxtApp": false,
+  "workbench.colorCustomizations": {
+    "[dark-plus-syntax (high contrast)]": {
+      "editor.selectionHighlightBackground": "#936adf25",
+      "editor.selectionHighlightBorder": "#0000"
+    },
+    "activityBar.background": "#372C17",
+    "titleBar.activeBackground": "#4D3D21",
+    "titleBar.activeForeground": "#FCFBF9"
+  }
+}
