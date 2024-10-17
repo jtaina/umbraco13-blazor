@@ -1,0 +1,57 @@
+@using Blazor_Umbraco13.RazorComponents;
+@using TableInput;
+@using TableRow;
+@using System;
+@using Models;
+
+@* @rendermode InteractiveAuto *@
+
+<div class="table-container">
+	<div class="table-row">
+		<div class="table-header">Name</div>
+		<div class="table-header">Quantity</div>
+		<div class="table-header">Delete</div>
+	</div>
+
+	@foreach (var item in tableItems)
+	{
+	@* <TableRow Name=item.Name Quantity=item.Quantity /> *@
+	<TableRow @bind-Name=item.Name @bind-Quantity=item.Quantity />
+	}
+
+
+</div>
+
+<h2 class="mt-8">Table item values</h2>
+	@foreach (var item in tableItems)
+	{
+	<div class="table-row">
+		<div class="table-data">
+			@item.Name
+		</div>
+		<div class="table-data">@item.Quantity</div>
+	</div>
+	}
+
+
+
+@code {
+	public int QuantityTotal=0;
+	private List<VerySimpleItem> tableItems = new List<VerySimpleItem>()
+	{
+		new VerySimpleItem { Id = new Guid(), Name = "Emerald", Quantity = 1 },
+		new VerySimpleItem { Id = new Guid(), Name = "Opal", Quantity = 3 },
+	};
+
+
+	@* public void ObserveChange() {
+		Console.WriteLine("ObserveChange");
+		ParentValue++;
+		Console.WriteLine("ParentValue");
+		Console.WriteLine(ParentValue);
+	} *@
+
+	protected override void OnInitialized() {
+		Console.WriteLine("Hi from table page!");
+	}
+}

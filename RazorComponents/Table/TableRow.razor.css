@@ -1,0 +1,6 @@
+.table-row {
+  padding: 0.8rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  border-bottom: 1px solid whitesmoke;
+}

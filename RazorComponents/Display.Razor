@@ -14,6 +14,8 @@
     }
 </div>
 
+<hr>
+
 <div>
   <h3>Sample Json data below</h3>
   @if (item.HasValue)
@@ -32,15 +34,17 @@ else
     <div>Json will arrive here...</div>
 }
 
+  <h3>Sample data from model below</h3>
+
 @if (simpleitem != null)
 {
     <div>
-        @* <p><strong>ID:</strong> @simpleitem.Id</p> *@
-        @* <p><strong>Name:</strong> @simpleitem.Value.GetProperty("Name")</p> *@
-        @* <p><strong>Description:</strong> @simpleitem.Description</p> *@
-        @* <p><strong>Price:</strong> @simpleitem.Value.GetProperty("Price")</p>
-        <p><strong>Available:</strong> @simpleitem.Value.GetProperty("Available")</p>
-        <p><strong>Timestamp:</strong> @simpleitem.Value.GetProperty("Timestamp")</p> *@
+        <p><strong>ID:</strong> @simpleitem.Id</p>
+        <p><strong>Name:</strong> @simpleitem.Name</p>
+        <p><strong>Description:</strong> @simpleitem.Description</p>
+        <p><strong>Price:</strong> @simpleitem.Price</p>
+        <p><strong>Available:</strong> @simpleitem.Available</p>
+        <p><strong>Timestamp:</strong> @simpleitem.Timestamp</p>
     </div>
 }
 else
@@ -62,8 +66,9 @@ else
 
     protected override async Task OnInitializedAsync()
 {
-    await AsyncApiCall();
-    await FetchSimpleItem();
+    //await Task.Delay(1000);
+    //await AsyncApiCall();
+    //await FetchSimpleItem();
 }
 
     private void PropertyHasChanged(object? sender, PropertyChangedEventArgs args)
@@ -91,11 +96,12 @@ else
     {
       try {
         var clientlocal = ClientFactory.CreateClient("LocalApi");
-        var response = await clientlocal.GetAsync("api/simpleitem");
+        @* var response = await clientlocal.GetAsync("api/simpleitem");
         var stringData = await response.Content.ReadAsStringAsync();
         Console.WriteLine("stringData");
         Console.WriteLine(stringData);
-        var simpleitemfetched = JsonConvert.DeserializeObject<SimpleItem>(stringData);
+        var simpleitemfetched = JsonConvert.DeserializeObject<SimpleItem>(stringData); *@
+          var simpleitemfetched = await clientlocal.GetFromJsonAsync<SimpleItem>("api/simpleitem");
 
         Type type = simpleitemfetched.GetType();
         Console.WriteLine("type");

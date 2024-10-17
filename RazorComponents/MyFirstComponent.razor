@@ -1,0 +1,25 @@
+@using Microsoft.AspNetCore.Components.Web;
+@* @rendermode InteractiveServer *@
+@* @rendermode InteractiveAuto *@
+@* @attribute [InteractiveServerRenderMode] *@
+
+@namespace MyFirstComponent
+
+<div>
+  CurrentCounterValue in MySecondComponent is @CurrentCounterValue
+</div>
+
+<button onclick="@(() => ObserveChange())" >increment </button>
+
+@code {
+  [Parameter]
+
+   public int CurrentCounterValue { get; set; }
+
+   	public void ObserveChange() {
+		  Console.WriteLine("ObserveChange");
+		  CurrentCounterValue++;
+		  Console.WriteLine("ParentValue");
+		  Console.WriteLine(CurrentCounterValue);
+    }
+}

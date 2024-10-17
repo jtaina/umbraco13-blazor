@@ -5,17 +5,17 @@ namespace Models
 
     public class SimpleItem
     {
-        [JsonProperty("id")]
+        // [JsonProperty("id")]
         public Guid Id { get; set; }
-        [JsonProperty("name")]
+        // [JsonProperty("name")]
         public string? Name { get; set; }
-        [JsonProperty("description")]
+        // [JsonProperty("description")]
         public string? Description { get; set; }
-        [JsonProperty("price")]
+        // [JsonProperty("price")]
         public decimal Price { get; set; }
-        [JsonProperty("available")]
+        // [JsonProperty("available")]
         public bool Available { get; set; }
-        [JsonProperty("timestamp")]
+        // [JsonProperty("timestamp")]
         public DateTime Timestamp { get; set; }
     }
 

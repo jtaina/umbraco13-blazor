@@ -1,0 +1,17 @@
+/* figure out how to do scoped css, these are not included in the build.... */
+
+.table-container {
+
+}
+
+.table-row {
+  padding: 0.8rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  border-bottom: 1px solid whitesmoke;
+}
+
+
+.table-data, .table-header {
+  padding: 0.8rem 0;
+}

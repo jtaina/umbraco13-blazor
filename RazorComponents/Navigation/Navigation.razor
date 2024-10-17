@@ -1,0 +1,33 @@
+@using Blazor_Umbraco13.RazorComponents;
+@using Umbraco.Cms.Core.Models.PublishedContent;
+@using System;
+@inject Umbraco.Cms.Core.Web.IUmbracoContextAccessor UmbracoContextAccessor
+
+
+
+<nav class="nav">
+  <a href="/" class="nav-link">Home</a>
+  @foreach (var child in childrenOfHome)
+  {
+    <a href="@child.Url()" class="nav-link">@child.Name</a>
+  }
+</nav>
+
+
+
+
+
+
+
+@code {
+#nullable enable
+  private IEnumerable<IPublishedContent> childrenOfHome;
+
+  protected override void OnInitialized()
+  {
+    if (UmbracoContextAccessor.TryGetUmbracoContext(out var umbracoContext))
+    {
+      childrenOfHome = umbracoContext.Content?.GetAtRoot().FirstOrDefault().Children();
+    }
+  }
+}

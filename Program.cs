@@ -14,8 +14,10 @@ builder.CreateUmbracoBuilder()
     .AddNotificationHandler<ContentPublishedNotification, OnContentPublishNotification>()
     .Build();
 
+builder.Services.AddRazorPages();
 builder.Services.AddRazorComponents()
 .AddInteractiveServerComponents();
+builder.Services.AddServerSideBlazor();
 
 builder.Services.AddControllersWithViews();
 
@@ -43,9 +45,10 @@ app.UseUmbraco()
         u.UseWebsiteEndpoints();
     });
 
-    app.UseEndpoints(endpoints =>
+// app.UseStaticFiles();
+
+app.UseEndpoints(endpoints =>
 {
-    // This is the line you need to add
     endpoints.MapControllers();
 
 });

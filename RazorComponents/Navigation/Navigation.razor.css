@@ -1,0 +1,9 @@
+.nav {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+}
+
+.nav-link {
+  text-underline-offset: 3px;
+}

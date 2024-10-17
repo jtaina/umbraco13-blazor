@@ -1,5 +1,5 @@
 ﻿@using Umbraco.Cms.Web.Common.PublishedModels;
-@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.Home>
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.ContentPage>
 @using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
 @using Blazor_Umbraco13.RazorComponents;
 
@@ -7,11 +7,8 @@
 	Layout = "Master.cshtml";
 }
 
-<section class="home-content">
+<section class="content-page">
 	<h1>@Model.Name</h1>
 	<div class="text-content">@Model.MainText</div>
-
-	@(await Html.RenderComponentAsync<Display>(RenderMode.ServerPrerendered))
-
 
 </section>

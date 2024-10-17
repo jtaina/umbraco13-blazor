@@ -1,15 +1,33 @@
+@* @using Blazor_Umbraco13.RazorComponents; *@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="/global.styles.css" rel="stylesheet" />
+  @* <link href="~/_framework/scoped.styles.css" rel="stylesheet" /> *@
+  <link href="~/Blazor-Umbraco13.styles.css" rel="stylesheet" />
+
   <title>Blazing Umbraco</title>
+  <head>
+    @* This base definition is needed so that blazor's routing doesn't get screwed up *@
+    <base href="~/"/>
+  </head>
 </head>
 <body>
-  <header>BLAZING UMBRACO</header>
-  <main>
-    @RenderBody()
-  </main>
-  <footer>FOOTER KEEP ON FOOTING</footer>
+  <div class="layout">
+    <header class="header">
+      @(await Html.RenderComponentAsync<Blazor_Umbraco13.RazorComponents.Navigation.Navigation>(RenderMode.ServerPrerendered))
+    </header>
+    <main class="main">
+      @RenderBody()
+    </main>
+    <footer class="footer">FOOTER KEEP ON FOOTING</footer>
+  </div>
+  <script src="~/_framework/blazor.server.js"></script>
 </body>
+
+
 </html>
