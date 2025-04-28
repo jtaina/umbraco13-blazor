@@ -8,7 +8,7 @@
 }
 
 <section class="home-content">
-	<h1>@Model.Name</h1>
+	@* <h1>@Model.Name</h1> *@
 	<div class="text-content">@Model.MainText</div>
 
 	@(await Html.RenderComponentAsync<Display>(RenderMode.ServerPrerendered))

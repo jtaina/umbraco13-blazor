@@ -1,28 +1,35 @@
 @namespace TableRow
 @using TableInput
 
-  <div class="table-row">
-		<div class="table-data">
-			@* <TableInput T="string" Type="string" @bind-BindingValue=Name /> *@
-			<TableInput T="string" Type="string" BindingValue="Name" BindingValueChanged="SetNameAsync" />
-		</div>
-		<div class="table-data">
-			<TableInput T="int" Type="number" BindingValue="Quantity" BindingValueChanged="SetQuantityAsync" />
-		</div>
-		<div class="table-data"><button>-</button></div>
+  <div class="table-row pt-2 pb-2">
+			<TableInput
+        T="string"
+        Type="string"
+        BindingValue="Name"
+        BindingValueChanged="SetNameAsync"
+      />
+			<TableInput
+        T="int"
+        Type="number"
+        BindingValue="Quantity"
+        BindingValueChanged="SetQuantityAsync"
+      />
+      <button @onclick="OnDeleteRow" class="px-8 py-2 bg-color-danger hover:bg-color-danger-600 rounded-lg">Delete</button>
 	</div>
 
 
 @code
 {
   [Parameter]
+  public Guid Id { get; set;}
+  [Parameter]
+  public EventCallback<Guid> IdChanged { get; set; }
+  [Parameter]
   public string? Name { get; set;}
   [Parameter]
   public EventCallback<string?> NameChanged { get; set; }
   async Task SetNameAsync(string value)
   {
-    Console.WriteLine("Name:");
-    Console.WriteLine(value);
     await NameChanged.InvokeAsync(value);
   }
   [Parameter]
@@ -31,11 +38,17 @@
   public EventCallback<int> QuantityChanged { get; set; }
   async Task SetQuantityAsync(int value)
   {
-    Console.WriteLine("Name:");
-    Console.WriteLine(value);
     await QuantityChanged.InvokeAsync(value);
   }
 
+  [Parameter]
+  public EventCallback<Guid> DeleteClicked { get; set; }
+
+  async Task OnDeleteRow()
+  {
+    Console.WriteLine("OnDeleteRow, Id:" + Id);
+    await DeleteClicked.InvokeAsync(Id);
+  }
 
 
 }

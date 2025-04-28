@@ -1,4 +1,7 @@
 @using Blazor_Umbraco13.RazorComponents;
+@using System.Collections.ObjectModel
+@using System.Collections.Specialized
+@using System.ComponentModel
 @using TableInput;
 @using TableRow;
 @using System;
@@ -7,51 +10,157 @@
 @* @rendermode InteractiveAuto *@
 
 <div class="table-container">
-	<div class="table-row">
-		<div class="table-header">Name</div>
-		<div class="table-header">Quantity</div>
-		<div class="table-header">Delete</div>
+	<div class="table-row pb-2">
+		<div class="table-header font-subtitle font-bold text-md">Name</div>
+		<div class="table-header font-subtitle font-bold text-md">Quantity</div>
+		<div class="table-header font-subtitle font-bold text-md">Delete</div>
 	</div>
 
 	@foreach (var item in tableItems)
 	{
-	@* <TableRow Name=item.Name Quantity=item.Quantity /> *@
-	<TableRow @bind-Name=item.Name @bind-Quantity=item.Quantity />
+		<TableRow @bind-Id=item.Id @bind-Name=item.Name @bind-Quantity=item.Quantity DeleteClicked="OnDeleteRow" />
 	}
 
 
 </div>
 
-<h2 class="mt-8">Table item values</h2>
-	@foreach (var item in tableItems)
-	{
+<section class="mt-8">
+	<button @onclick="OnAddRow" class="px-8 py-2 rounded-lg bg-color-success hover:bg-color-success-600">+ Add Row</button>
+</section>
+
+
+@* <div class="mt-8">
+	<p class="text-blue-dark">Some textcontent</p>
+</div> *@
+
+@* <h2 class="mt-16">Table item values</h2>
+@foreach (var item in tableItems)
+{
 	<div class="table-row">
 		<div class="table-data">
 			@item.Name
 		</div>
 		<div class="table-data">@item.Quantity</div>
+		<div class="table-data">@item.Id</div>
 	</div>
-	}
+} *@
 
+
+
+<h2 class="mt-16">Quantity total: <strong>@QuantityTotal</strong></h2>
 
 
 @code {
-	public int QuantityTotal=0;
-	private List<VerySimpleItem> tableItems = new List<VerySimpleItem>()
+	public int QuantityTotal = 0;
+
+	public ObservableCollection<VerySimpleItem> tableItems = new ObservableCollection<VerySimpleItem>()
 	{
-		new VerySimpleItem { Id = new Guid(), Name = "Emerald", Quantity = 1 },
-		new VerySimpleItem { Id = new Guid(), Name = "Opal", Quantity = 3 },
+		new VerySimpleItem { Id = Guid.NewGuid(), Name = "Emerald", Quantity = 1 },
+		new VerySimpleItem { Id = Guid.NewGuid(), Name = "Opal", Quantity = 3 },
 	};
 
+	protected override void OnInitialized()
+	{
+		InitializeTableObservers();
+		updateTotalQuantity();
+	}
 
-	@* public void ObserveChange() {
+	public void InitializeTableObservers()
+	{
+		tableItems.CollectionChanged += OnTableItemsChanged;
+
+		foreach (var item in tableItems)
+		{
+			item.PropertyChanged += OnItemPropertyChanged;
+		}
+	}
+
+	private void OnItemPropertyChanged(object? sender, PropertyChangedEventArgs e)
+	{
+		Console.WriteLine("OnItemPropertyChanged, sender:");
+		Console.WriteLine(sender);
+		if (sender is VerySimpleItem item)
+		{
+			Console.WriteLine($"{item.Name}'s properties changed. Quantity: {item.Quantity}");
+		}
+
+		int currentTotalQuantity = 0;
+
+		foreach (var tableItem in tableItems)
+		{
+			Console.WriteLine(tableItem.Quantity);
+			currentTotalQuantity += tableItem.Quantity;
+		}
+		QuantityTotal = currentTotalQuantity;
+	}
+
+	private void OnAddRow()
+	{
+		var newItem = new VerySimpleItem { Id = Guid.NewGuid(), Name = "", Quantity = 0 };
+		newItem.PropertyChanged += OnItemPropertyChanged;
+		tableItems.Add(newItem);
+	}
+
+	private void OnDeleteRow(Guid id)
+	{
+		tableItems.RemoveById(id);
+	}
+
+	private async Task ShowAlert()
+	{
+		await JS.InvokeVoidAsync("alert", "This is a Blazor alert using JavaScript!");
+	}
+
+	[Inject]
+	private IJSRuntime JS { get; set; }
+
+	public void OnTableItemsChanged(object? sender, NotifyCollectionChangedEventArgs e)
+	{
+		if (e.Action == NotifyCollectionChangedAction.Add)
+		{
+			foreach (var newItem in e.NewItems)
+			{
+				Console.WriteLine($"Item added: {newItem}");
+			}
+		}
+		else if (e.Action == NotifyCollectionChangedAction.Remove)
+		{
+			foreach (var oldItem in e.OldItems)
+			{
+				Console.WriteLine($"Item removed: {oldItem}");
+			}
+		}
+		else if (e.Action == NotifyCollectionChangedAction.Replace)
+		{
+			foreach (var oldItem in e.OldItems)
+			{
+				Console.WriteLine($"Item replaced: {oldItem}");
+			}
+
+			foreach (var newItem in e.NewItems)
+			{
+				Console.WriteLine($"Item added: {newItem}");
+			}
+		}
+
+		updateTotalQuantity();
+	}
+
+	private void updateTotalQuantity() {
+		int currentTotalQuantity = 0;
+
+		foreach (var item in tableItems)
+		{
+			Console.WriteLine(item.Quantity);
+			currentTotalQuantity += item.Quantity;
+		}
+		QuantityTotal = currentTotalQuantity;
+		Console.WriteLine("QuantityTotal");
+		Console.WriteLine(QuantityTotal);
+	}
+
+	public void ObserveChange()
+	{
 		Console.WriteLine("ObserveChange");
-		ParentValue++;
-		Console.WriteLine("ParentValue");
-		Console.WriteLine(ParentValue);
-	} *@
-
-	protected override void OnInitialized() {
-		Console.WriteLine("Hi from table page!");
 	}
 }

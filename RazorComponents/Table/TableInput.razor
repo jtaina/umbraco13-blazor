@@ -4,7 +4,12 @@
 @using System.ComponentModel.DataAnnotations
 
 @* <input @bind:get="Type" @bind:get="BindingValue" @bind:set="SetAsync"> *@
-<input type="@Type" @bind:get="BindingValue" @bind:set="SetAsync">
+<input
+  type="@Type"
+  @bind:get="BindingValue"
+  @bind:set="SetAsync"
+  class="rounded-lg p-2 bg-color-whitesmoke"
+/>
 
 @code {
   [Parameter]
@@ -16,8 +21,6 @@
 
   async Task SetAsync(T value)
   {
-    Console.WriteLine("value");
-    Console.WriteLine(value);
     await BindingValueChanged.InvokeAsync(value);
   }
 }

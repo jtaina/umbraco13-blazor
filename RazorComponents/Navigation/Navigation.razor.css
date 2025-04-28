@@ -1,9 +1,10 @@
 .nav {
   display: flex;
   flex-direction: row;
-  gap: 16px;
+  gap: 24px;
 }
 
 .nav-link {
   text-underline-offset: 3px;
+  font-size: 1.25rem;
 }

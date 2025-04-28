@@ -6,8 +6,27 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        fontFamily: {
+          'subtitle': ['Verdana', 'sans-serif'],
+          'body': ['Verdana', 'sans-serif']
+        },
+        colors: {
+          "color-primary": "#4080b4",
+          "color-primary": "#5da5df",
+          "color-success": "#91c6ef",
+          "color-success": "#9fd3fc",
+          "color-info": "#D2E0FB", // b093a0
+          "color-warning": "#fbf7d2",
+          "color-danger": "#ffb47d",
+          "color-whitesmoke": "whitesmoke",
+        }
+      }
+    }
+  </script>
   <link href="/global.styles.css" rel="stylesheet" />
-  @* <link href="~/_framework/scoped.styles.css" rel="stylesheet" /> *@
   <link href="~/Blazor-Umbraco13.styles.css" rel="stylesheet" />
 
   <title>Blazing Umbraco</title>
@@ -16,15 +35,16 @@
     <base href="~/"/>
   </head>
 </head>
-<body>
+<body class="bg-color-info-100">
   <div class="layout">
-    <header class="header">
+    <header class="header bg-color-primary ">
       @(await Html.RenderComponentAsync<Blazor_Umbraco13.RazorComponents.Navigation.Navigation>(RenderMode.ServerPrerendered))
     </header>
-    <main class="main">
+    @* <main class="main bg-color-primary py-16 px-32 rounded-xl"> *@
+    <main class="main bg-color-info-100 border-color-primary rounded-xl">
       @RenderBody()
     </main>
-    <footer class="footer">FOOTER KEEP ON FOOTING</footer>
+    @* <footer class="footer">FOOTER KEEP ON FOOTING</footer> *@
   </div>
   <script src="~/_framework/blazor.server.js"></script>
 </body>

@@ -8,8 +8,8 @@
 }
 
 
-<section class="home-content">
-	<h1>@Model.Name</h1>
+<section class="home-content bg-color-primary p-16 rounded-xl">
+	@* <h1>@Model.Name</h1> *@
 
 @(await Html.RenderComponentAsync<Blazor_Umbraco13.RazorComponents.Table.Table>(RenderMode.ServerPrerendered))
 

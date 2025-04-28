@@ -19,8 +19,8 @@
   3. Add accessible line-height
   4. Improve text rendering
 */
-body {
-  line-height: 1.5;
+html body {
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -46,6 +46,8 @@ p, h1, h2, h3, h4, h5, h6 {
   overflow-wrap: break-word;
 }
 
+/* end reset */
+
 a {
   text-decoration: unset;
 }
@@ -58,21 +60,43 @@ a:visited {
   color: unset;
 }
 
+.font-subtitle {
+  letter-spacing: 1.16px;
+  text-transform: uppercase;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+input, button {
+  width: 100%;
+  box-sizing: border-box;
+}
+
 
 
 body {
   margin: 0;
-  background: linear-gradient(#12345a, #1a395e);
+  /* background: linear-gradient(#12345a, #1a395e); */
+  /* background: #12345a; */
   color: whitesmoke;
+  color: #272424;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 1.125rem;
 }
 
-/* header, main, footer {
-  margin: 2rem 20rem;
-} */
 
 .layout {
   width: 100%;
@@ -83,20 +107,21 @@ body {
     "main" 1fr
     "footer" auto
     / 1fr;
-  gap: 48px;
-  padding: 24px 48px;
+  gap: 64px;
+  /* padding: 24px 48px; */
   min-height: 100vh;
 }
 
 .header {
   grid-area: header;
   font-weight: bold;
+  padding: 24px 48px;
 }
 .navigation {
   display: flex;
 }
 .main {
-  max-width: 1560px;
+  max-width: 1240px;
   width: 100%;
   margin-left: auto;
   margin-right: auto;
@@ -111,3 +136,13 @@ body {
   margin-top: 24px;
   margin-bottom: 24px;
 }
+
+/* .blazing-button {
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  background-color: whitesmoke;
+  color: #12345a;
+  height: 3.5rem;
+  width: 3.5rem;
+  font-size: 1.5rem;
+} */
