@@ -66,9 +66,9 @@ else
 
     protected override async Task OnInitializedAsync()
 {
-    //await Task.Delay(1000);
-    //await AsyncApiCall();
-    //await FetchSimpleItem();
+    await Task.Delay(1000);
+    await AsyncApiCall();
+    await FetchSimpleItem();
 }
 
     private void PropertyHasChanged(object? sender, PropertyChangedEventArgs args)
@@ -101,7 +101,7 @@ else
         Console.WriteLine("stringData");
         Console.WriteLine(stringData);
         var simpleitemfetched = JsonConvert.DeserializeObject<SimpleItem>(stringData); *@
-          var simpleitemfetched = await clientlocal.GetFromJsonAsync<SimpleItem>("api/simpleitem");
+        var simpleitemfetched = await clientlocal.GetFromJsonAsync<SimpleItem>("api/simpleitem");
 
         Type type = simpleitemfetched.GetType();
         Console.WriteLine("type");
